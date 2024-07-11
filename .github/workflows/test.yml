@@ -1,4 +1,4 @@
-name: PR-Lint
+name: Lint_PR
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/branches/${{ github.base_ref }}/protection \
             -d '{"required_status_checks":null,"enforce_admins":true,"required_pull_request_reviews":null,"restrictions":{"users":[],"teams":[]}}'
 
-  PR-lint-job:
+  lint-PR-job:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -32,7 +32,7 @@ jobs:
       - name: Checkout repository.
         uses: actions/checkout@v4
 
-      - name: List files PR_lint
+      - name: List files Lint_PR
         run : ls -al  
       
       - name: Set up Node.js..
@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Unfreeze merge
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl -X DELETE \
             -H "Authorization: token $GH_PAT" \

@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain');
   
   // Send the response body "Hello World"
-  res.end('Helloo World\n');
+  res.end('Hello World\n');
 });
 
 // Make the server listen on the specified hostname and port
