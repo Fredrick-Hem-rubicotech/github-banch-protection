@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Unfreeze merge
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl -X DELETE \
             -H "Authorization: token $GH_PAT" \
