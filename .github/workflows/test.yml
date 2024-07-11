@@ -27,6 +27,7 @@ jobs:
   lint-PR-job:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    needs: freeze-merge
 
     steps:
       - name: Checkout repository.
@@ -45,6 +46,7 @@ jobs:
   unfreeze-merge:
     if: github.event.action == 'closed'
     runs-on: ubuntu-latest
+    needs: lint-PR-job
     steps:
       - name: Unfreeze merge
         env:
