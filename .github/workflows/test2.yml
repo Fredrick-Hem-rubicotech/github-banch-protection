@@ -1,4 +1,4 @@
-name: PR workflow
+name: PR-Lint
 
 on:
   workflow_dispatch:
