@@ -1,4 +1,4 @@
-name: Lint-PR
+name: PR-Lint
 
 on:
   workflow_dispatch:
@@ -7,12 +7,24 @@ on:
       - 'dev'
     paths:
       - 'server.js' 
-  merge_group:
-    types: [checks_requested]
+    types: [opened, reopened, closed]
 
 jobs:
+  freeze-merge:
+    if: github.event.action == 'opened' || github.event.action == 'reopened'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Freeze merge
+        env:
+          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X PUT \
+            -H "Authorization: token $GH_PAT" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/branches/${{ github.base_ref }}/protection \
+            -d '{"required_status_checks":null,"enforce_admins":true,"required_pull_request_reviews":null,"restrictions":{"users":[],"teams":[]}}'
 
-  lint-PR-job:
+  PR-lint-job:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -20,7 +32,7 @@ jobs:
       - name: Checkout repository.
         uses: actions/checkout@v4
 
-      - name: List files lint_PR
+      - name: List files PR_lint
         run : ls -al  
       
       - name: Set up Node.js..
@@ -30,3 +42,15 @@ jobs:
 
       - name: Install dependencies.
         run: npm ci 
+  unfreeze-merge:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unfreeze merge
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          curl -X DELETE \
+            -H "Authorization: token $GH_PAT" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/branches/${{ github.base_ref }}/protection
