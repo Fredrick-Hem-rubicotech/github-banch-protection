@@ -7,6 +7,8 @@ on:
       - 'dev'
     paths:
       - 'server.js' 
+  merge_group:
+    types: [checks_requested]
 
 jobs:
 
