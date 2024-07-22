@@ -10,12 +10,12 @@ jobs:
 
   PR-lint-and-deploy-server:
     if: contains(github.event.pull_request.changed_files, 'server.js')
-    uses: ./.github/workflows/server-workflow.yml
+    uses: ./.github/workflows/test.yml
     with:
       node-version: '20.x'
 
   PR-lint-and-deploy-server2:
     if: contains(github.event.pull_request.changed_files, 'server2.js')
-    uses: ./.github/workflows/server2-workflow.yml
+    uses: ./.github/workflows/test2.yml
     with:
       node-version: '20.x'
