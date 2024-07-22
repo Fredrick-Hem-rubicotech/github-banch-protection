@@ -1,4 +1,4 @@
-name: PR workflow for server.js
+name: PR workflow for server2.js
 
 on:
   workflow_call:
@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  PR-lint-and-deploy-server:
+  PR-lint-and-deploy-server2:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
